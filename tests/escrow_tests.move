@@ -1,3 +1,4 @@
+// Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 #[test_only]
@@ -12,22 +13,6 @@ module defi::escrow_tests {
     const THIRD_PARTY_ADDRESS: address = @0xFACE;
     const RANDOM_ADDRESS: address = @123;
 
-    // Error codes.
-    const ESwapTransferFailed: u64 = 0;
-    const EReturnTransferFailed: u64 = 0;
-
-    // Example of an object type used for exchange
-    struct ItemA has key, store {
-        id: UID
-    }
-
-    // Example of the other object type used for exchange
-    struct ItemB has key, store {
-        id: UID
-    }
-
-    #[test]
-    fun test_escrow_flow() {
         // Both Alice and Bob send items to the third party
         let scenario_val = send_to_escrow(ALICE_ADDRESS, BOB_ADDRESS);
         let scenario = &mut scenario_val;

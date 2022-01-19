@@ -1,3 +1,4 @@
+// Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 /// A flash loan that works for any Coin type
@@ -12,22 +13,6 @@ module defi::flash_lender {
     struct FlashLender<phantom T> has key {
         id: UID,
         /// Coins available to be lent to prospective borrowers
-        to_lend: Balance<T>,
-        /// Number of `Coin<T>`'s that will be charged for the loan.
-        /// In practice, this would probably be a percentage, but
-        /// we use a flat fee here for simplicity.
-        fee: u64,
-    }
-
-    /// A "hot potato" struct recording the number of `Coin<T>`'s that
-    /// were borrowed. Because this struct does not have the `key` or
-    /// `store` ability, it cannot be transferred or otherwise placed in
-    /// persistent storage. Because it does not have the `drop` ability,
-    /// it cannot be discarded. Thus, the only way to get rid of this
-    /// struct is to call `repay` sometime during the transaction that created it,
-    /// which is exactly what we want from a flash loan.
-    struct Receipt<phantom T> {
-        /// ID of the flash lender object the debt holder borrowed from
         flash_lender_id: ID,
         /// Total amount of funds the borrower must repay: amount borrowed + the fee
         repay_amount: u64
