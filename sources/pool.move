@@ -18,27 +18,6 @@
 ///   use sui::tx_context::TxContext;
 ///
 ///   struct POOL_TEAM has drop {}
-///
-///   entry fun create_pool<T>(
-///     token: Coin<T>,
-///     sui: Coin<SUI>,
-///     fee_percent: u64,
-///     ctx: &mut TxContext
-///   ) {
-///     pool::create_pool(POOL_TEAM {}, token, sui, fee_percent, ctx)
-///   }
-/// }
-/// ```
-///
-/// This solution is rather simple and is based on the example from the Move repo:
-/// https://github.com/move-language/move/blob/main/language/documentation/examples/experimental/coin-swap/sources/CoinSwap.move
-module defi::pool {
-    use sui::object::{Self, UID};
-    use sui::coin::{Self, Coin};
-    use sui::balance::{Self, Supply, Balance};
-    use sui::sui::SUI;
-    use sui::transfer;
-    use sui::math;
     use sui::tx_context::{Self, TxContext};
 
     /// For when supplied Coin is zero.
