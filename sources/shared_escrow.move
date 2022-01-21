@@ -23,32 +23,6 @@ module defi::shared_escrow {
     }
 
     // Error codes
-    /// An attempt to cancel escrow by a different user than the owner
-    const EWrongOwner: u64 = 0;
-    /// Exchange by a different user than the `recipient` of the escrowed object
-    const EWrongRecipient: u64 = 1;
-    /// Exchange with a different item than the `exchange_for` field
-    const EWrongExchangeObject: u64 = 2;
-    /// The escrow has already been exchanged or cancelled
-    const EAlreadyExchangedOrCancelled: u64 = 3;
-
-    /// Create an escrow for exchanging goods with counterparty
-    public fun create<T: key + store, ExchangeForT: key + store>(
-        recipient: address,
-        exchange_for: ID,
-        escrowed_item: T,
-        ctx: &mut TxContext
-    ) {
-        let creator = tx_context::sender(ctx);
-        let id = object::new(ctx);
-        let escrowed = option::some(escrowed_item);
-        transfer::public_share_object(
-            EscrowedObj<T,ExchangeForT> {
-                id, creator, recipient, exchange_for, escrowed
-            }
-        );
-    }
-
     /// The `recipient` of the escrow can exchange `obj` with the escrowed item
     public entry fun exchange<T: key + store, ExchangeForT: key + store>(
         obj: ExchangeForT,

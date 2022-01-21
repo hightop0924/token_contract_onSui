@@ -18,6 +18,27 @@ module defi::shared_escrow_tests {
     const EReturnTransferFailed: u64 = 0;
 
     // Example of an object type used for exchange
+    struct ItemA has key, store {
+        id: UID
+    }
+
+    // Example of the other object type used for exchange
+    struct ItemB has key, store {
+        id: UID
+    }
+
+    #[test]
+    fun test_escrow_flow() {
+        // Alice creates the escrow
+        let (scenario_val, item_b) = create_escrow(ALICE_ADDRESS, BOB_ADDRESS);
+
+        // Bob exchanges item B for the escrowed item A
+        exchange(&mut scenario_val, BOB_ADDRESS, item_b);
+
+        // Alice now owns item B, and Bob now owns item A
+        assert!(owns_object<ItemB>(ALICE_ADDRESS), ESwapTransferFailed);
+        assert!(owns_object<ItemA>(BOB_ADDRESS), ESwapTransferFailed);
+
         test_scenario::end(scenario_val);
     }
 
